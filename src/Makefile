@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-HUB ?= docker.io/istio/istioctl-proxy
+HUB ?= docker.io/dbyin/istioctl-proxy
 TAG ?= 0.1
 
 build: main.go Dockerfile

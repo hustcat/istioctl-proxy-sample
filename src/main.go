@@ -151,7 +151,7 @@ func queryIstiodPods(all bool, dr *xdsapi.DiscoveryRequest, namespace string, ct
 		XDSSAN:  makeSan(namespace, kubeClient.Revision()),
 		Timeout: 2e9,
 	}
-	dialOpts := getDialOptions(ctx)
+	//dialOpts := getDialOptions(ctx)
 
 	responses := []*xdsapi.DiscoveryResponse{}
 	for _, pod := range pods {
@@ -165,6 +165,10 @@ func queryIstiodPods(all bool, dr *xdsapi.DiscoveryRequest, namespace string, ct
 		}
 		defer fw.Close()
 		xdsOpts.Xds = fw.Address()
+		dialOpts, err := xds.DialOptions(xdsOpts, namespace, "default", kubeClient)
+		if err != nil {
+			return nil, fmt.Errorf("failed to get dial options: %", err)
+		}
 		response, err := xds.GetXdsResponse(dr, namespace, "default", xdsOpts, dialOpts)
 		if err != nil {
 			return nil, fmt.Errorf("could not get XDS from discovery pod %q: %v", pod.Name, err)

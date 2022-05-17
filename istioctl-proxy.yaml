@@ -141,6 +141,7 @@ rules:
   resources:
   - pods
   - pods/portforward
+  - serviceaccounts/token
   verbs: ["get", "list", "create"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
